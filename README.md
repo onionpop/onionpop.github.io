@@ -1,6 +1,8 @@
 ## Privacy-Preserving Onion Site Popularity Measurement
 
-This page provides details about a small and short-term measurement study of the popularity of [Tor](https://www.torproject.org) onion sites. In particular, we aim to show that it is feasible to estimate the popularity of onion sites by using machine learning techniques to classify accesses to the Facebook onion site front page.
+This page provides details about a small, short-term, safe, and secure measurement study of the popularity of [Tor](https://www.torproject.org) onion sites. In particular, we aim to show that it is feasible to estimate the popularity of onion sites by using machine learning techniques to classify accesses to the Facebook onion site front page, while providing strong user privacy guarantees.
+
+We believe that this study is safe: we only learn the total site usage, with added noise. Because we collect data from Tor middle relays, we can not learn anything about individual users. Because we use PrivCount, we do not learn site usage on single relays, or total site usage without any noise. All unblinded data is kept on the collecting relay, and is automatically destroyed after processing. See the [safety section](#what-are-we-doing-how-is-this-safe) for more details.
 
 ### Who are we?
 
