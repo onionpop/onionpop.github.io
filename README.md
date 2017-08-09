@@ -55,8 +55,8 @@ The following relays are part of our PrivCount deployment. The data collected by
 
 Current status:
 ```diff
-- We are not currently running a measurement phase
-
++ We are currently running a measurement phase
++ Measurement 3: start time `2017-08-09 15:01:59 UTC`, end time `2017-08-10 15:01:59 UTC`
 ```
 
 Previous status:
