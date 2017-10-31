@@ -6,9 +6,13 @@ We believe that this study is safe: we only learn the total site usage, with add
 
 ### Who are we?
 
-We plan to list our names, affiliations, and contact info here soon. However, this measurement study is part of a larger research paper; most research conferences require submission without author attribution in order to avoid introducing biases into the paper review process. We link to this page in our paper, and so listing our names here could be grounds for immediate rejection. We plan to add our names, affiliations, and email addresses here once our paper clears the submission process.
+The results of this work will appear in the following publication:
 
-That being said, you can contact the people operating the relays used in this study by following the links in the relay section below, and if you click around enough you can probably find the github repository maintainer. Program committees should avoid searching too hard in order to preserve the integrity of the review process.
+```
+Applying Traffic Fingerprinting to Measure Tor
+25th Symposium on Network and Distributed System Security (NDSS 2018)
+Rob Jansen, Marc Juarez, Rafael Galvez, Tariq Elahi, and Claudia Diaz
+```
 
 ### What is the general idea?
 
@@ -27,7 +31,32 @@ If guessing the onion site from the middle is successful, then it can be used to
 
 Our measurement study explicitly **prioritizes user safety as a primary goal**. We practice data minimization, limit measurement granularity, and provide additional security to the measurement process as described below. We have incorporated feedback from the [Tor Research Safety Board](https://research.torproject.org/safetyboard.html) into our methodology.
 
-More details coming soon...
+Because this measurement is done from the middle relay position, **onion-encryption technically prevents us from learning any client-identifying information**. Although this protects users to some extent, we further protect users by utilizing the state-of-the-art in safe Tor measurement tools and techniques. Specifically, we use [PrivCount](https://github.com/privcount) and the techniques set out by [Jansen and Johnson in "Safely Measuring Tor"](http://www.robgjansen.com/publications/privcount-ccs2016.pdf) to provide differential privacy and securely aggregate measurements across all of our relay data collectors.
+
+During the measurement process, circuit and cell metadata will be used by the classifiers to make their guesses. Circuit meta-data includes internal middle relay state that is used to identify the previous and next relay in the circuit (the circuit ID, channel ID, and public relay fingerprint and flags). Cell metadata includes whether the cell was sent or received and to/from which side of the circuit, the previous and next circuit ID and channel ID, the cell type and relay command type (if known), and a timestamp of when the cell was sent or received.
+
+The meta-data is sent in real time from Tor to PrivCount where it will be temporarily stored in volatile memory (RAM); the longest time that PrivCount will store the data in RAM is the lifetime of the circuit (normally around 10 minutes). When the circuit closes, PrivCount will pass the meta-data to a previously-trained classifier, which will make the guesses as appropriate. PrivCount will increment basic circuit counters that will allow us to compute the following statistics:
+
+  1. The fraction of all middle circuits that we predict are client-side rendezvous circuits
+  1. The fraction of above, in which we predict that our middle is the second relay from the client (next to the client's guard)
+  1. The fraction of above, in which we predict the circuit was used to access the Facebook onion site front page
+
+During our measurement, we visit the Facebook onion site front page with our own client to generate some ground truth circuits which we can use to check the accuracy of our predictions. Additionally, we collect some counters when our relays serve in the rendezvous position that can also be used to check our predictions. These include:
+
+  1. The fraction of entry/middle/exit circuits that are rendezvous circuits
+  1. The fraction of rendezvous circuits that connect to a known Facebook ASN
+
+Once these counters are incremented, **all meta-data corresponding to the circuit and its cells are destroyed**.
+
+The PrivCount counters are initiated to noisy values to ensure differential privacy is maintained (cf. ["Safely Measuring Tor"](http://www.robgjansen.com/publications/privcount-ccs2016.pdf)), and are then blinded and distributed across several share keepers to provide secure aggregation. At the end of the process, **we learn only the value of these noisy counts aggregated across all data collectors, and nothing else about the information that was used during the measurement process**. Specifically, we do not learn relay-specific inputs to the final counter value, and client usage of Tor during our measurement will be protected under differential privacy (i.e., the final counter values include noise to protect the true counts).
+
+### Why are we doing this?
+
+This work has value to the community that we believe offsets the potential risks associated with the measurement.
+
+  - We highlight the positive use of Tor and onion services by focusing our measurement on the Facebook onion site. Understanding which parts of the Tor protocol are used most often can help Tor researchers and developers focus their effort on improvements that can have the largest impact on the widest set of users.
+  - We believe that showing how website fingerprinting can be applied for purposes other than client deanonymization (the focus of most recent website fingerprinting research) is novel and interesting and may spur additional research that may ultimately help us better understand the real world risks associated with fingerprinting techniques. This may, in turn, lead to the development of better fingerprinting defenses.
+  - We believe that the risk from middle nodes is too often overlooked in the literature, and we think there is value in showing what can be discovered from the relay position with the fewest requirements.
 
 ### Which relays are involved in the measurement?
 
