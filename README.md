@@ -29,7 +29,7 @@ If guessing the onion site from the middle is successful, then it can be used to
 
 ### What are we doing? How is this safe?
 
-Our measurement study explicitly **prioritizes user safety as a primary goal**. We practice data minimization, limit measurement granularity, and provide additional security to the measurement process as described below. We have incorporated feedback from the [Tor Research Safety Board](https://research.torproject.org/safetyboard.html) into our methodology.
+Our measurement study explicitly **prioritizes user safety as a primary goal**. We practice data minimization, limit measurement granularity, and provide additional security to the measurement process as described below. We have incorporated feedback from the [Tor Research Safety Board](https://research.torproject.org/safetyboard.html) into our methodology. See [our feedback request](https://research.torproject.org/trsb/2017-03-request.txt) and [the safety board response](https://research.torproject.org/trsb/2017-03-response.txt).
 
 Because this measurement is done from the middle relay position, **onion-encryption technically prevents us from learning any client-identifying information**. Although this protects users to some extent, we further protect users by utilizing the state-of-the-art in safe Tor measurement tools and techniques. Specifically, we use [PrivCount](https://github.com/privcount) and the techniques set out by [Jansen and Johnson in "Safely Measuring Tor"](http://www.robgjansen.com/publications/privcount-ccs2016.pdf) to provide differential privacy and securely aggregate measurements across all of our relay data collectors.
 
