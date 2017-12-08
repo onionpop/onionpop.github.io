@@ -84,8 +84,14 @@ The following relays are part of our PrivCount deployment. The data collected by
 
 We have previously performed three measurements:
 
-  - Measurement 1: start time `2017-08-02 01:54:12 UTC`, end time `2017-08-03 01:54:12 UTC`
-  - Measurement 2: start time `2017-08-07 01:23:43 UTC`, end time `2017-08-08 01:23:43 UTC`
-  - Measurement 3: start time `2017-08-09 15:01:59 UTC`, end time `2017-08-10 15:01:59 UTC`
+  - Measurement 1
+    - start time `2017-08-02 01:54:12 UTC`
+    - end time `2017-08-03 01:54:12 UTC`
+  - Measurement 2:
+    - start time `2017-08-07 01:23:43 UTC`
+    - end time `2017-08-08 01:23:43 UTC`
+  - Measurement 3:
+    - start time `2017-08-09 15:01:59 UTC`
+    - end time `2017-08-10 15:01:59 UTC`
 
 We do not plan to perform any additional measurements for this project.
